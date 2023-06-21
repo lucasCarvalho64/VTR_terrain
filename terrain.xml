@@ -1,0 +1,120 @@
+<?xml version="1.0" ?>
+<project name="Terrain Generator" width=512 height=512>
+	<assets>
+		<attributes>
+			<attribute type="RENDERER" name="Height" data="FLOAT" value=45/>
+			<attribute type="RENDERER" name="highLimit" data="FLOAT" value=60/>
+			<attribute type="RENDERER" name="lowLimit" data="FLOAT" value=5/>
+			<attribute type="RENDERER" name="nTextures" data="FLOAT" value=20/>
+			<attribute type="RENDERER" name="textureMix" data="FLOAT" value=6.0/>
+			<attribute type="RENDERER" name="Normals" data="FLOAT" value=2.0/>
+			<attribute type="RENDERER" name="noiseVersion" data="INT" value=2/>
+			<attribute type="RENDERER" name="noiseVariance" data="FLOAT" value=2/>
+			<attribute type="RENDERER" name="noiseScale" data="FLOAT" value=130/>	
+			<attribute type="RENDERER" name="waterHeight" data="FLOAT" value=0/>
+			<attribute type="RENDERER" name="Smoothness" data="FLOAT" value=250/>	
+			<attribute type="RENDERER" name="scene" data="INT" value=2/>
+		</attributes>
+		<scenes>
+			<scene name="Plane" >
+				<geometry name ="Grid" type ="GRID" LENGTH=400  DIVISIONS=800></geometry>
+			</scene>
+		</scenes>
+		
+		<viewports>
+			<viewport name="MainViewport">
+				<CLEAR_COLOR r="1.0" g="1.0" b="1.0" />
+			</viewport>
+		</viewports>
+		
+		<cameras>
+			<camera name="MainCamera">
+				<viewport name="MainViewport" />
+				<POSITION x=0 y=80 z=150 />
+				<VIEW x=-0.5 y=-0.5 z=-0.5 />
+				<UP x=0 y=1 z=0 />
+				<NEAR value=0.1 />
+				<FAR value=10000 />
+			</camera>
+		</cameras>
+		
+		<lights>
+			<light name="Sun" >
+				<DIRECTION x="0" y="-1" z="0" />
+			</light>
+		</lights>
+		
+		<materialLibs>
+			<materialLib filename="terrain.mlib"/>
+		</materialLibs>
+		
+	</assets>
+	
+	
+	<pipelines>
+	
+		<pipeline name="p1" >
+		
+			<pass class="default" name="terrains">
+				<scenes>
+					<scene name="Plane" />
+				</scenes>
+				<camera name="MainCamera" />
+				<viewport name="MainViewport" />
+				<lights>
+					<light name="Sun" />
+				</lights>
+				<materialMaps>
+                    <map fromMaterial="*" toMaterial="terrainMat" toLibrary="terrainLib" />
+                </materialMaps>
+			</pass>
+					
+		</pipeline>
+		
+	</pipelines>
+
+	<interface>
+		<window label="Cenario" >
+							
+			<var label="scene" type="RENDERER" context="CURRENT" 
+					component="scene" def="min=0 max=2 step=1" />
+
+			<var label="nTextures" type="RENDERER" context="CURRENT" 
+					component="nTextures" def="min=1 max=500 step=10" />
+
+			<var label="Height" type="RENDERER" context="CURRENT" 
+					component="Height" def="min=0.0 max=50 step=0.1" />
+
+			<var label="highLimit" type="RENDERER" context="CURRENT" 
+					component="highLimit" def="min=0.0 max=100 step=0.1" />
+
+			<var label="lowLimit" type="RENDERER" context="CURRENT" 
+					component="lowLimit" def="min=0.0 max=100 step=0.1" />
+
+			<var label="waterHeight" type="RENDERER" context="CURRENT" 
+					component="waterHeight" def="min=0.0 max=50 step=0.1" />
+
+			<var label="textureMix" type="RENDERER" context="CURRENT" 
+					component="textureMix" def="min=0.0 max=15.0 step=0.1" />
+
+			<var label="BumpMapping" type="RENDERER" context="CURRENT" 
+					component="Normals" def="min=0.0 max=2 step=0.5" />
+
+		</window>
+
+		<window label="Noise" >
+			
+			<var label="noiseVersion" type="RENDERER" context="CURRENT" 
+					component="noiseVersion" def="min=0 max=2 step=2" />
+
+			<var label="Smoothness" type="RENDERER" context="CURRENT" 
+					component="Smoothness" def="min=50.0 max=800 step=0.1" />
+
+			<var label="Scale" type="RENDERER" context="CURRENT" 
+					component="noiseScale" def="min=10 max=500 step=0.1" />
+			
+			<var label="Variance" type="RENDERER" context="CURRENT" 
+					component="noiseVariance" def="min=0 max=25 step=1" />
+		</window>
+	</interface>
+</project>
